@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-compatible" content="IE-edge"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Jump Game</title>
+<style>
+*{
+padding: 0;
+margin: 0;
+box-sizing:border-box;
+transition:all .6s ease;
+font-family:'Poppins',sans-serif;
+}
+body{
+background:#111;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+min-height:100vh;
+color:#eee;
+}
+button{
+border:none;
+outline:none;
+background:none;
+box-shadow:0 2px 10px #000;
+padding:6px 8px;
+font-size:16px;
+color:#58c452;
+}
+button:hover{
+color:#111;
+background:#58c452;
+box-shadow:0 0 10px #58c452;
+}
+.menu{
+margin:0 0 20px;
+color:#58c452;
+padding:5px 10px;
+text-shadow:0 2px 10px #000;
+box-shadow:0 2px 10px #000;
+display:flex;
+padding:20px;
+align-items:center;
+justify-content:center;
+gap:12px;
+}
+.menu .score-count{
+font-size:19px;
+}
+.game{
+width:500px;
+height:300px;
+position:relative;
+overflow:hidden;
+box-shadow:0 2px 10px #000;
+}
+.game .player{
+width:40px;
+height:80px;
+box-shadow:0 2px 10px #000;
+position:relative;
+top:220px;left:30px;
+}
+.jump{animation:jump .3s infinite;}
+@keyframes jump{
+0%{top:220px;}
+50%{top:100px;}
+100%{top:220px;}
+}
+.game .block{
+width:30px;
+height:30px;
+background:#58c452;
+box-shadow:0 2px 10px #000;
+position:absolute;
+bottom:0;left:470px;
+animation:turn 1s infinite linear;
+}
+@keyframes turn{
+0%{left:470px;}
+100%{left:-30px;}
+}
+
+</style>
+</head>
+<body>
+<div class="menu"><p>Your score is <span class="score-count">0</span></p><button class="stp-btn">Stop</button></div>
+
+<div class="game">
+<div class="player"></div>
+<div class="block"></div>
+</div>
+
+</body>
+<script>
+var menuBox = document.querySelector('.menu');
+var gameBox = document.querySelector('.game');
+var player = document.querySelector('.player');
+var block = document.querySelector('.block');
+var score = document.querySelector('.score-count');
+var stopBtn = document.querySelector('.stp-btn');
+var couter = 0;
+function jump(){
+player.classList.add('jump')
+setTimeout(()=>{
+player.classList.remove('jump')
+},300)
+}
+document.body.onclick = ()=>{
+jump()
+}
+setInterval(()=>{
+var rnd = Math.floor(Math.random()*70+1);
+var checkB = parseInt(window.getComputedStyle(block).getPropertyValue('left'));
+if(checkB = 470){
+block.style.height =`${rnd}px`;
+}
+},1000)
+setInterval(()=>{
+var checkP = parseInt(window.getComputedStyle(player).getPropertyValue('top'));
+var checkB = parseInt(window.getComputedStyle(block).getPropertyValue('left'));
+if(checkB>40 && checkB<70 && checkP >= 170){
+block.style.animation ='none';
+alert(`Game over ,Your score is ${score.innerText}`)
+block.style.animation ='turn 1s infinite linear';
+counter=0;
+}
+counter++
+score.innerText = Math.floor(counter/100);
+},10)
+</script>
+</html>
